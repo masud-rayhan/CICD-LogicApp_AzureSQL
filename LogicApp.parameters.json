@@ -24,7 +24,7 @@
       "value": "None"
     },
     "sql_1_sqlConnectionString": {
-      "value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication='Active Directory Password';"
+      "value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication='Active Directory Password';"
       
     }
   }
