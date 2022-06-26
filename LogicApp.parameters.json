@@ -24,8 +24,8 @@
       "value": "None"
     },
     "sql_1_sqlConnectionString": {
-      "value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=ActiveDirectoryPassword;"
-      //"value": "Provider=tcp:e78-onboarding-sqldb.database.windows.net,1433;Data Source=myServer;Initial Catalog=myDatabase;Authentication=ActiveDirectoryPassword;User ID=myUserName;Password=myPassword;Use Encryption for Data=true;"
+      //"value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=ActiveDirectoryPassword;"
+      "value": "Provider=MSOLEDBSQL;Data Source=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Authentication=ActiveDirectoryPassword;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;Use Encryption for Data=true;"
     }
   }
 }
