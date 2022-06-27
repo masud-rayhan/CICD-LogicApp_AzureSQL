@@ -45,7 +45,7 @@
       "value": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
     },
     "azuread_2_Connection_Name": {
-      "value": "MyConnectionAzureAD"
+      "value": "MyConnectionAzureAD2"
     }
   }
 }
