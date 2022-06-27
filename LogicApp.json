@@ -154,9 +154,16 @@
                 },
                 "method": "post",
                 "body": {
-                  "FirstName": "@triggerBody()?['firstname']",
-                  "LastName": "@triggerBody()?['lastname']",
-                  "Email": "@triggerBody()?['email']"
+                  "FirstName": "@triggerBody()?['firstName']",
+                  "LastName": "@triggerBody()?['lastName']",
+                  "Email": "@triggerBody()?['email']",
+                  "DisplayName": "@triggerBody()?['displayName']",
+                  "JobTitle": "@triggerBody()?['jobTitle']",
+                  "Department": "@triggerBody()?['department']",
+                  "MobilePhone": "@triggerBody()?['mobilePhone']",
+                  "City": "@triggerBody()?['city']",
+                  "State": "@triggerBody()?['state']",
+                  "EmployeeType": "@triggerBody()?['employeeType']"
                 },
                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[Employee]'))}/items"
               },
@@ -177,10 +184,31 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "firstname": {
+                    "firstName": {
                       "type": "string"
                     },
-                    "lastname": {
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "displayName": {
+                      "type": "string"
+                    },
+                    "jobTitle": {
+                      "type": "string"
+                    },
+                    "department": {
+                      "type": "string"
+                    },
+                    "mobilePhone": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "employeeType": {
                       "type": "string"
                     },
                     "email": {
