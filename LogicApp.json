@@ -120,30 +120,6 @@
       "type": "string",
       "defaultValue": "azuread"
     },
-    "azuread_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "LogicAppConnection@sbmitrahotmail.onmicrosoft.com"
-    },
-    "azuread_1_token:TenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "The tenant ID of for the Azure Active Directory application"
-      }
-    },
-    "azuread_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azuread-1"
-    },
-    "azuread_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
-    },
-    "azuread_2_token:TenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "The tenant ID of for the Azure Active Directory application"
-      }
-    },
     "azuread_3_Connection_Name": {
       "type": "string",
       "defaultValue": "azuread-2"
@@ -181,34 +157,6 @@
                 "body": "Request Success"
               },
               "runAfter": {
-                "Create_user": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "Create_user": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": {
-                  "connection": {
-                    "name": "@parameters('$connections')['azuread']['connectionId']"
-                  }
-                },
-                "method": "post",
-                "body": {
-                  "accountEnabled": true,
-                  "displayName": "@triggerBody()?['displayName']",
-                  "mailNickname": "@triggerBody()?['mailNickname']",
-                  "passwordProfile": {
-                    "password": "@triggerBody()?['password']"
-                  },
-                  "userPrincipalName": "@triggerBody()?['userPrincipalName']",
-                  "givenName": "@triggerBody()?['givenName']",
-                  "surname": "@triggerBody()?['surname']"
-                },
-                "path": "/v1.0/users"
-              },
-              "runAfter": {
                 "Insert_row_(V2)": [
                   "Succeeded"
                 ]
@@ -224,11 +172,11 @@
                 },
                 "method": "post",
                 "body": {
-                  "name": "@triggerBody()?['displayName']",
-                  "phone": "@triggerBody()?['phone']",
-                  "address": "@triggerBody()?['address']"
+                  "FirstName": "@triggerBody()?['firstname']",
+                  "LastName": "@triggerBody()?['lastname']",
+                  "Email": "@triggerBody()?['email']"
                 },
-                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[InformationRayhan]'))}/items"
+                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[Employee]'))}/items"
               },
               "runAfter": {}
             }
@@ -247,28 +195,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "displayName": {
+                    "firstname": {
                       "type": "string"
                     },
-                    "mailNickname": {
+                    "lastname": {
                       "type": "string"
                     },
-                    "password": {
-                      "type": "string"
-                    },
-                    "userPrincipalName": {
-                      "type": "string"
-                    },
-                    "givenName": {
-                      "type": "string"
-                    },
-                    "surname": {
-                      "type": "string"
-                    },
-                    "phone": {
-                      "type": "string"
-                    },
-                    "address": {
+                    "email": {
                       "type": "string"
                     }
                   }
@@ -283,11 +216,6 @@
         "parameters": {
           "$connections": {
             "value": {
-              "azuread": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]",
-                "connectionName": "[parameters('azuread_3_Connection_Name')]"
-              },
               "sql_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'sql')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
@@ -298,7 +226,6 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]"
       ]
     },

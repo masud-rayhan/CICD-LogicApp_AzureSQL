@@ -24,30 +24,9 @@
       "value": "None"
     },
     "sql_1_sqlConnectionString": {
-      //"value": "Server=e78-onboarding-sqldb.database.windows.net;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=ActiveDirectoryPassword;"
-      //"value": "Provider=MSOLEDBSQL;Data Source=e78-onboarding-sqldb.database.windows.net;Initial Catalog=e78-onboarding;Authentication=ActiveDirectoryPassword;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;Use Encryption for Data=true;"
+      
       "value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=CloudSAa3ac4e51;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
-    },
-    "azuread_1_token:TenantId": {
-      "value": "dca5b6cb-5b22-4794-9daf-de4fa510b249"
-    },
-    "azuread_1_Connection_DisplayName": {
-      "value": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
-    },
-    "azuread_1_Connection_Name": {
-      "value": "MyConnectionAzureAD"
-    },
-
-
-    "azuread_2_token:TenantId": {
-      "value": "dca5b6cb-5b22-4794-9daf-de4fa510b249"
-    },
-    "azuread_2_Connection_DisplayName": {
-      "value": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
-    },
-    "azuread_2_Connection_Name": {
-      "value": "MyConnectionAzureAD2"
     },
 
 
