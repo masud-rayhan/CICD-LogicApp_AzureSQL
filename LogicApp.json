@@ -115,6 +115,20 @@
       "metadata": {
         "description": "SQL Connection String"
       }
+    },
+    "azuread_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azuread"
+    },
+    "azuread_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "LogicAppConnection@sbmitrahotmail.onmicrosoft.com"
+    },
+    "azuread_1_token:TenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "The tenant ID of for the Azure Active Directory application"
+      }
     }
   },
   "variables": {},
@@ -136,10 +150,10 @@
               "kind": "http",
               "inputs": {
                 "statusCode": 200,
-                "body": "Request Success"
+                "body": "Request Success @{body('Get_user')?['id']}"
               },
               "runAfter": {
-                "Execute_stored_procedure_(V2)": [
+                "Get_user": [
                   "Succeeded"
                 ]
               }
@@ -168,6 +182,23 @@
                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
               },
               "runAfter": {}
+            },
+            "Get_user": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuread']['connectionId']"
+                  }
+                },
+                "method": "get",
+                "path": "/v1.0/users/@{encodeURIComponent('sqladmin@sbmitrahotmail.onmicrosoft.com')}"
+              },
+              "runAfter": {
+                "Execute_stored_procedure_(V2)": [
+                  "Succeeded"
+                ]
+              }
             }
           },
           "parameters": {
@@ -230,13 +261,19 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'sql')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
                 "connectionName": "[parameters('sql_1_Connection_Name')]"
+              },
+              "azuread": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_1_Connection_Name'))]",
+                "connectionName": "[parameters('azuread_1_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azuread_1_Connection_Name'))]"
       ]
     },
     {
@@ -257,6 +294,21 @@
           "encryptConnection": "[parameters('sql_1_encryptConnection')]",
           "privacySetting": "[parameters('sql_1_privacySetting')]",
           "sqlConnectionString": "[parameters('sql_1_sqlConnectionString')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azuread_1_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]"
+        },
+        "displayName": "[parameters('azuread_1_Connection_DisplayName')]",
+        "nonSecretParameterValues": {
+          "token:TenantId": "[parameters('azuread_1_token:TenantId')]"
         }
       }
     }
