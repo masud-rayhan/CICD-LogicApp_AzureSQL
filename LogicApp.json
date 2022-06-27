@@ -115,6 +115,20 @@
       "metadata": {
         "description": "SQL Connection String"
       }
+    },
+    "azuread_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azuread"
+    },
+    "azuread_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "LogicAppConnection@sbmitrahotmail.onmicrosoft.com"
+    },
+    "azuread_1_token:TenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "The tenant ID of for the Azure Active Directory application"
+      }
     }
   },
   "variables": {},
@@ -131,6 +145,47 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
+            "Response": {
+              "type": "Response",
+              "kind": "http",
+              "inputs": {
+                "statusCode": 200,
+                "body": "Request Success"
+              },
+              "runAfter": {
+                "Create_user": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Create_user": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuread']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "body": {
+                  "accountEnabled": true,
+                  "displayName": "@triggerBody()?['displayName']",
+                  "mailNickname": "@triggerBody()?['mailNickname']",
+                  "passwordProfile": {
+                    "password": "@triggerBody()?['password']"
+                  },
+                  "userPrincipalName": "@triggerBody()?['userPrincipalName']",
+                  "givenName": "@triggerBody()?['givenName']",
+                  "surname": "@triggerBody()?['surname']"
+                },
+                "path": "/v1.0/users"
+              },
+              "runAfter": {
+                "Insert_row_(V2)": [
+                  "Succeeded"
+                ]
+              }
+            },
             "Insert_row_(V2)": {
               "type": "ApiConnection",
               "inputs": {
@@ -141,26 +196,13 @@
                 },
                 "method": "post",
                 "body": {
-                  "name": "@triggerBody()?['name']",
+                  "name": "@triggerBody()?['displayName']",
                   "phone": "@triggerBody()?['phone']",
                   "address": "@triggerBody()?['address']"
                 },
                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[InformationRayhan]'))}/items"
               },
               "runAfter": {}
-            },
-            "Response": {
-              "type": "Response",
-              "kind": "http",
-              "inputs": {
-                "statusCode": 200,
-                "body": "Request Success"
-              },
-              "runAfter": {
-                "Insert_row_(V2)": [
-                  "Succeeded"
-                ]
-              }
             }
           },
           "parameters": {
@@ -177,7 +219,22 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "name": {
+                    "displayName": {
+                      "type": "string"
+                    },
+                    "mailNickname": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "userPrincipalName": {
+                      "type": "string"
+                    },
+                    "givenName": {
+                      "type": "string"
+                    },
+                    "surname": {
                       "type": "string"
                     },
                     "phone": {
@@ -198,6 +255,11 @@
         "parameters": {
           "$connections": {
             "value": {
+              "azuread": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_1_Connection_Name'))]",
+                "connectionName": "[parameters('azuread_1_Connection_Name')]"
+              },
               "sql_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'sql')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
@@ -208,6 +270,7 @@
         }
       },
       "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', parameters('azuread_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]"
       ]
     },
@@ -229,6 +292,21 @@
           "encryptConnection": "[parameters('sql_1_encryptConnection')]",
           "privacySetting": "[parameters('sql_1_privacySetting')]",
           "sqlConnectionString": "[parameters('sql_1_sqlConnectionString')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azuread_1_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]"
+        },
+        "displayName": "[parameters('azuread_1_Connection_DisplayName')]",
+        "nonSecretParameterValues": {
+          "token:TenantId": "[parameters('azuread_1_token:TenantId')]"
         }
       }
     }
