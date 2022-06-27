@@ -38,6 +38,8 @@
     "azuread_1_Connection_Name": {
       "value": "MyConnectionAzureAD"
     },
+
+
     "azuread_2_token:TenantId": {
       "value": "dca5b6cb-5b22-4794-9daf-de4fa510b249"
     },
@@ -46,6 +48,20 @@
     },
     "azuread_2_Connection_Name": {
       "value": "MyConnectionAzureAD2"
+    },
+
+
+
+
+    "azuread_3_token:TenantId": {
+      "value": "dca5b6cb-5b22-4794-9daf-de4fa510b249"
+    },
+
+    "azuread_3_Connection_DisplayName": {
+      "value": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
+    },
+    "azuread_3_Connection_Name": {
+      "value": "MyConnectionAzureAD3"
     }
   }
 }
