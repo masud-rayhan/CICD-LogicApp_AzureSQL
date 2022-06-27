@@ -139,12 +139,12 @@
                 "body": "Request Success"
               },
               "runAfter": {
-                "Insert_row_(V2)": [
+                "Execute_stored_procedure_(V2)": [
                   "Succeeded"
                 ]
               }
             },
-            "Insert_row_(V2)": {
+            "Execute_stored_procedure_(V2)": {
               "type": "ApiConnection",
               "inputs": {
                 "host": {
@@ -154,18 +154,18 @@
                 },
                 "method": "post",
                 "body": {
-                  "FirstName": "@triggerBody()?['firstName']",
-                  "LastName": "@triggerBody()?['lastName']",
-                  "Email": "@triggerBody()?['email']",
-                  "DisplayName": "@triggerBody()?['displayName']",
-                  "JobTitle": "@triggerBody()?['jobTitle']",
-                  "Department": "@triggerBody()?['department']",
-                  "MobilePhone": "@triggerBody()?['mobilePhone']",
-                  "City": "@triggerBody()?['city']",
-                  "State": "@triggerBody()?['state']",
-                  "EmployeeType": "@triggerBody()?['employeeType']"
+                  "city": "@triggerBody()?['city']",
+                  "department": "@triggerBody()?['department']",
+                  "displayName": "@triggerBody()?['displayName']",
+                  "email": "@triggerBody()?['email']",
+                  "employeeType": "@triggerBody()?['employeeType']",
+                  "firstname": "@triggerBody()?['firstName']",
+                  "jobTitle": "@triggerBody()?['jobTitle']",
+                  "lastname": "@triggerBody()?['lastName']",
+                  "mobilePhone": "@triggerBody()?['mobilePhone']",
+                  "state": "@triggerBody()?['state']"
                 },
-                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[Employee]'))}/items"
+                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
               },
               "runAfter": {}
             }
