@@ -12,7 +12,7 @@
       "value": "e78-onboarding"
     },
     "sql_1_username": {
-      "value": "sqladmin@sbmitrahotmail.onmicrosoft.com"
+      "value": "CloudSAa3ac4e51"
     },
     "sql_1_password": {
       "value": "Rajbaby1!"
@@ -24,8 +24,10 @@
       "value": "None"
     },
     "sql_1_sqlConnectionString": {
-      "value": "Server=e78-onboarding-sqldb.database.windows.net;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=ActiveDirectoryPassword;"
+      //"value": "Server=e78-onboarding-sqldb.database.windows.net;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=ActiveDirectoryPassword;"
       //"value": "Provider=MSOLEDBSQL;Data Source=e78-onboarding-sqldb.database.windows.net;Initial Catalog=e78-onboarding;Authentication=ActiveDirectoryPassword;User ID=sqladmin@sbmitrahotmail.onmicrosoft.com;Password=Rajbaby1!;Use Encryption for Data=true;"
+      "value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=CloudSAa3ac4e51;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
     }
   }
 }
