@@ -130,20 +130,6 @@
         "description": "The tenant ID of for the Azure Active Directory application"
       }
     },
-    "azuread_4_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azuread"
-    },
-    "azuread_4_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "LogicAppConnection@sbmitrahotmail.onmicrosoft.com"
-    },
-    "azuread_4_token:TenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "The tenant ID of for the Azure Active Directory application"
-      }
-    }
   },
   "variables": {},
   "resources": [
@@ -267,7 +253,7 @@
                       "inputs": {
                         "host": {
                           "connection": {
-                            "name": "@parameters('$connections')['azuread_1']['connectionId']"
+                            "name": "@parameters('$connections')['azuread']['connectionId']"
                           }
                         },
                         "method": "post",
@@ -304,7 +290,7 @@
                             "inputs": {
                               "host": {
                                 "connection": {
-                                  "name": "@parameters('$connections')['azuread_1']['connectionId']"
+                                  "name": "@parameters('$connections')['azuread']['connectionId']"
                                 }
                               },
                               "method": "post",
@@ -420,11 +406,6 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]",
                 "connectionName": "[parameters('azuread_3_Connection_Name')]"
-              },
-              "azuread_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_4_Connection_Name'))]",
-                "connectionName": "[parameters('azuread_4_Connection_Name')]"
               }
             }
           }
@@ -432,8 +413,7 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuread_4_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]"
       ]
     },
     {
@@ -472,21 +452,6 @@
         }
       }
     },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azuread_4_Connection_Name')]",
-      "location": "[parameters('logicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]"
-        },
-        "displayName": "[parameters('azuread_4_Connection_DisplayName')]",
-        "nonSecretParameterValues": {
-          "token:TenantId": "[parameters('azuread_4_token:TenantId')]"
-        }
-      }
-    }
   ],
   "outputs": {}
 }
