@@ -129,6 +129,20 @@
       "metadata": {
         "description": "The tenant ID of for the Azure Active Directory application"
       }
+    },
+    "azuread_4_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azuread"
+    },
+    "azuread_4_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "LogicAppConnection@sbmitrahotmail.onmicrosoft.com"
+    },
+    "azuread_4_token:TenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "The tenant ID of for the Azure Active Directory application"
+      }
     }
   },
   "variables": {},
@@ -218,26 +232,6 @@
                     ]
                   }
                 },
-                "Add_user_to_group": {
-                  "type": "ApiConnection",
-                  "inputs": {
-                    "host": {
-                      "connection": {
-                        "name": "@parameters('$connections')['azuread']['connectionId']"
-                      }
-                    },
-                    "method": "post",
-                    "body": {
-                      "@@odata.id": "@body('Create_user')?['id']"
-                    },
-                    "path": "/v1.0/groups/@{encodeURIComponent('dabe6716-4847-442d-b582-362215c35bee')}/members/$ref"
-                  },
-                  "runAfter": {
-                    "Create_user": [
-                      "Succeeded"
-                    ]
-                  }
-                },
                 "Get_user": {
                   "type": "ApiConnection",
                   "inputs": {
@@ -253,6 +247,78 @@
                     "Execute_stored_procedure_(V2)": [
                       "Succeeded"
                     ]
+                  }
+                },
+                "Condition": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "equals": [
+                          "@items('For_each')?['fields']?['EmploymentStatus']",
+                          "Contractor"
+                        ]
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "Add_to_Contractor_Group": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['azuread_1']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "body": {
+                          "@@odata.id": "@body('Create_user')?['id']"
+                        },
+                        "path": "/v1.0/groups/@{encodeURIComponent('dabe6716-4847-442d-b582-362215c35bee')}/members/$ref"
+                      },
+                      "runAfter": {}
+                    }
+                  },
+                  "runAfter": {
+                    "Create_user": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {
+                      "Condition_2": {
+                        "type": "If",
+                        "expression": {
+                          "and": [
+                            {
+                              "equals": [
+                                "@items('For_each')?['fields']?['EmploymentStatus']",
+                                "Full-Time"
+                              ]
+                            }
+                          ]
+                        },
+                        "actions": {
+                          "Add_to_FTE_Group": {
+                            "type": "ApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connection": {
+                                  "name": "@parameters('$connections')['azuread_1']['connectionId']"
+                                }
+                              },
+                              "method": "post",
+                              "body": {
+                                "@@odata.id": "@body('Create_user')?['id']"
+                              },
+                              "path": "/v1.0/groups/@{encodeURIComponent('59417a71-4df0-475d-a14e-4d7496afb754')}/members/$ref"
+                            },
+                            "runAfter": {}
+                          }
+                        },
+                        "runAfter": {}
+                      }
+                    }
                   }
                 }
               },
@@ -354,6 +420,11 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]",
                 "connectionName": "[parameters('azuread_3_Connection_Name')]"
+              },
+              "azuread_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_4_Connection_Name'))]",
+                "connectionName": "[parameters('azuread_4_Connection_Name')]"
               }
             }
           }
@@ -361,7 +432,8 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('azuread_3_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azuread_4_Connection_Name'))]"
       ]
     },
     {
@@ -397,6 +469,21 @@
         "displayName": "[parameters('azuread_3_Connection_DisplayName')]",
         "nonSecretParameterValues": {
           "token:TenantId": "[parameters('azuread_3_token:TenantId')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azuread_4_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]"
+        },
+        "displayName": "[parameters('azuread_4_Connection_DisplayName')]",
+        "nonSecretParameterValues": {
+          "token:TenantId": "[parameters('azuread_4_token:TenantId')]"
         }
       }
     }
