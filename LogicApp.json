@@ -213,8 +213,8 @@
                     "path": "/v1.0/users"
                   },
                   "runAfter": {
-                    "Execute_stored_procedure_(V2)": [
-                      "Succeeded"
+                    "Get_user": [
+                      "Failed"
                     ]
                   }
                 },
@@ -234,6 +234,23 @@
                   },
                   "runAfter": {
                     "Create_user": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Get_user": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['azuread']['connectionId']"
+                      }
+                    },
+                    "method": "get",
+                    "path": "/v1.0/users/@{encodeURIComponent(items('For_each')?['fields']?['LastName'],'@sbmitrahotmail.onmicrosoft.com')}"
+                  },
+                  "runAfter": {
+                    "Execute_stored_procedure_(V2)": [
                       "Succeeded"
                     ]
                   }
