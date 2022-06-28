@@ -129,7 +129,7 @@
       "metadata": {
         "description": "The tenant ID of for the Azure Active Directory application"
       }
-    },
+    }
   },
   "variables": {},
   "resources": [
@@ -451,7 +451,7 @@
           "token:TenantId": "[parameters('azuread_3_token:TenantId')]"
         }
       }
-    },
+    }
   ],
   "outputs": {}
 }
