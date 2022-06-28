@@ -176,7 +176,7 @@
                       "department": "@items('For_each')?['fields']?['Department']",
                       "displayName": "@items('For_each')?['fields']?['PreferredName']",
                       "email": "@items('For_each')?['fields']?['WorkEmail']",
-                      "employeeType": "@items('For_each')?['fields']?['EmployeeType']",
+                      "employeeType": "@items('For_each')?['fields']?['EmploymentStatus']",
                       "firstname": "@items('For_each')?['fields']?['FirstName']",
                       "jobTitle": "@items('For_each')?['fields']?['JobTitle']",
                       "lastname": "@items('For_each')?['fields']?['LastName']",
@@ -237,9 +237,6 @@
                                 "type": "string"
                               },
                               "State": {
-                                "type": "string"
-                              },
-                              "EmployeeType": {
                                 "type": "string"
                               },
                               "EmploymentStatus": {
