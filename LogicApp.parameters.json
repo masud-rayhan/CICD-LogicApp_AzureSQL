@@ -28,13 +28,13 @@
       "value": "Server=tcp:e78-onboarding-sqldb.database.windows.net,1433;Initial Catalog=e78-onboarding;Persist Security Info=False;User ID=CloudSAa3ac4e51;Password=Rajbaby1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
     },
-    "azuread_2_Connection_Name": {
-      "value": "MyAdCon"
+    "azuread_3_Connection_Name": {
+      "value": "azuread-3"
     },
-    "azuread_2_Connection_DisplayName": {
-      "value": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
+    "azuread_3_Connection_DisplayName": {
+      "value": "jonathan@sbmitrahotmail.onmicrosoft.com"
     },
-    "azuread_2_token:TenantId": {
+    "azuread_3_token:TenantId": {
       "value": "ea075714-e4b2-4f17-a3d3-0dfef97c836a"
     }
   }

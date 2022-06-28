@@ -116,20 +116,6 @@
         "description": "SQL Connection String"
       }
     },
-    "azuread_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "MyConnectionAzureAD"
-    },
-    "azuread_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "SQLAdmin@sbmitrahotmail.onmicrosoft.com"
-    },
-    "azuread_2_token:TenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "The tenant ID of for the Azure Active Directory application"
-      }
-    },
     "azuread_3_Connection_Name": {
       "type": "string",
       "defaultValue": "azuread-3"
