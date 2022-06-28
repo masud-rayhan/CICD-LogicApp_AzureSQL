@@ -116,7 +116,6 @@
         "description": "SQL Connection String"
       }
     },
-    
     "azuread_2_Connection_Name": {
       "type": "string",
       "defaultValue": "MyConnectionAzureAD"
@@ -154,63 +153,70 @@
                 "body": "Request Success "
               },
               "runAfter": {
-                "Create_user": [
+                "For_each": [
                   "Succeeded"
                 ]
               }
             },
-            "Execute_stored_procedure_(V2)": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": {
-                  "connection": {
-                    "name": "@parameters('$connections')['sql_1']['connectionId']"
+            "For_each": {
+              "type": "Foreach",
+              "foreach": "@triggerBody()?['employees']",
+              "actions": {
+                "Execute_stored_procedure_(V2)": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['sql_1']['connectionId']"
+                      }
+                    },
+                    "method": "post",
+                    "body": {
+                      "city": "@items('For_each')?['fields']?['City']",
+                      "department": "@items('For_each')?['fields']?['Department']",
+                      "displayName": "@items('For_each')?['fields']?['DisplayName']",
+                      "email": "@items('For_each')?['fields']?['Email']",
+                      "employeeType": "@items('For_each')?['fields']?['EmployeeType']",
+                      "firstname": "@items('For_each')?['fields']?['FirstName']",
+                      "jobTitle": "@items('For_each')?['fields']?['JobTitle']",
+                      "lastname": "@items('For_each')?['fields']?['LastName']",
+                      "mobilePhone": "@items('For_each')?['fields']?['MobilePhone']",
+                      "state": "@items('For_each')?['fields']?['State']"
+                    },
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
+                  },
+                  "runAfter": {}
+                },
+                "Create_user": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['azuread_1']['connectionId']"
+                      }
+                    },
+                    "method": "post",
+                    "body": {
+                      "accountEnabled": true,
+                      "displayName": "@items('For_each')?['fields']?['DisplayName']",
+                      "mailNickname": "@items('For_each')?['fields']?['LastName']",
+                      "passwordProfile": {
+                        "password": "Rajbaby1!"
+                      },
+                      "userPrincipalName": "@items('For_each')?['fields']?['UserPrincipalName']",
+                      "givenName": "@items('For_each')?['fields']?['FirstName']",
+                      "surname": "@items('For_each')?['fields']?['LastName']"
+                    },
+                    "path": "/v1.0/users"
+                  },
+                  "runAfter": {
+                    "Execute_stored_procedure_(V2)": [
+                      "Succeeded"
+                    ]
                   }
-                },
-                "method": "post",
-                "body": {
-                  "city": "@triggerBody()?['city']",
-                  "department": "@triggerBody()?['department']",
-                  "displayName": "@triggerBody()?['displayName']",
-                  "email": "@triggerBody()?['email']",
-                  "employeeType": "@triggerBody()?['employeeType']",
-                  "firstname": "@triggerBody()?['firstName']",
-                  "jobTitle": "@triggerBody()?['jobTitle']",
-                  "lastname": "@triggerBody()?['lastName']",
-                  "mobilePhone": "@triggerBody()?['mobilePhone']",
-                  "state": "@triggerBody()?['state']"
-                },
-                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
+                }
               },
               "runAfter": {}
-            },
-            "Create_user": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": {
-                  "connection": {
-                    "name": "@parameters('$connections')['azuread_1']['connectionId']"
-                  }
-                },
-                "method": "post",
-                "body": {
-                  "accountEnabled": true,
-                  "displayName": "@triggerBody()?['displayName']",
-                  "mailNickname": "@triggerBody()?['lastName']",
-                  "passwordProfile": {
-                    "password": "Rajbaby1!"
-                  },
-                  "userPrincipalName": "@triggerBody()?['userPrincipalName']",
-                  "givenName": "@triggerBody()?['firstName']",
-                  "surname": "@triggerBody()?['lastName']"
-                },
-                "path": "/v1.0/users"
-              },
-              "runAfter": {
-                "Execute_stored_procedure_(V2)": [
-                  "Succeeded"
-                ]
-              }
             }
           },
           "parameters": {
@@ -225,42 +231,69 @@
               "kind": "Http",
               "inputs": {
                 "schema": {
-                  "type": "object",
                   "properties": {
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "displayName": {
-                      "type": "string"
-                    },
-                    "jobTitle": {
-                      "type": "string"
-                    },
-                    "department": {
-                      "type": "string"
-                    },
-                    "mobilePhone": {
-                      "type": "string"
-                    },
-                    "city": {
-                      "type": "string"
-                    },
-                    "state": {
-                      "type": "string"
-                    },
-                    "employeeType": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "userPrincipalName": {
-                      "type": "string"
+                    "employees": {
+                      "items": {
+                        "properties": {
+                          "changedFields": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "fields": {
+                            "properties": {
+                              "FirstName": {
+                                "type": "string"
+                              },
+                              "LastName": {
+                                "type": "string"
+                              },
+                              "DisplayName": {
+                                "type": "string"
+                              },
+                              "JobTitle": {
+                                "type": "string"
+                              },
+                              "Department": {
+                                "type": "string"
+                              },
+                              "MobilePhone": {
+                                "type": "string"
+                              },
+                              "City": {
+                                "type": "string"
+                              },
+                              "State": {
+                                "type": "string"
+                              },
+                              "EmployeeType": {
+                                "type": "string"
+                              },
+                              "Email": {
+                                "type": "string"
+                              },
+                              "UserPrincipalName": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "changedFields",
+                          "fields",
+                          "id"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 },
                 "method": "POST"
               }
