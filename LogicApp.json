@@ -203,9 +203,12 @@
                       "passwordProfile": {
                         "password": "Rajbaby1!"
                       },
-                      "userPrincipalName": "manualname@sbmitrahotmail.onmicrosoft.com",
+                      "userPrincipalName": "@{items('For_each')?['fields']?['LastName']}@sbmitrahotmail.onmicrosoft.com",
                       "givenName": "@items('For_each')?['fields']?['FirstName']",
-                      "surname": "@items('For_each')?['fields']?['LastName']"
+                      "surname": "@items('For_each')?['fields']?['LastName']",
+                      "department": "@items('For_each')?['fields']?['Department']",
+                      "jobTitle": "@items('For_each')?['fields']?['JobTitle']",
+                      "mobilePhone": "@items('For_each')?['fields']?['MobilePhone']"
                     },
                     "path": "/v1.0/users"
                   },
