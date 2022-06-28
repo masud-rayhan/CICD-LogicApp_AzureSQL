@@ -174,7 +174,7 @@
                     "body": {
                       "city": "@items('For_each')?['fields']?['City']",
                       "department": "@items('For_each')?['fields']?['Department']",
-                      "displayName": "@items('For_each')?['fields']?['DisplayName']",
+                      "displayName": "@items('For_each')?['fields']?['PreferredName']",
                       "email": "@items('For_each')?['fields']?['WorkEmail']",
                       "employeeType": "@items('For_each')?['fields']?['EmployeeType']",
                       "firstname": "@items('For_each')?['fields']?['FirstName']",
@@ -221,7 +221,7 @@
                               "LastName": {
                                 "type": "string"
                               },
-                              "DisplayName": {
+                              "PreferredName": {
                                 "type": "string"
                               },
                               "JobTitle": {
@@ -240,6 +240,9 @@
                                 "type": "string"
                               },
                               "EmployeeType": {
+                                "type": "string"
+                              },
+                              "EmploymentStatus": {
                                 "type": "string"
                               },
                               "WorkEmail": {
