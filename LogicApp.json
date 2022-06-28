@@ -348,21 +348,6 @@
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azuread_2_Connection_Name')]",
-      "location": "[parameters('logicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]"
-        },
-        "displayName": "[parameters('azuread_2_Connection_DisplayName')]",
-        "nonSecretParameterValues": {
-          "token:TenantId": "[parameters('azuread_2_token:TenantId')]"
-        }
-      }
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
       "name": "[parameters('azuread_3_Connection_Name')]",
       "location": "[parameters('logicAppLocation')]",
       "properties": {
