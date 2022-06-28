@@ -203,7 +203,7 @@
                       "passwordProfile": {
                         "password": "Rajbaby1!"
                       },
-                      "userPrincipalName": "@{items('For_each')?['fields']?['PreferredName']}@sbmitrahotmail.onmicrosoft.com",
+                      "userPrincipalName": "manualname@sbmitrahotmail.onmicrosoft.com",
                       "givenName": "@items('For_each')?['fields']?['FirstName']",
                       "surname": "@items('For_each')?['fields']?['LastName']"
                     },
