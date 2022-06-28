@@ -175,7 +175,7 @@
                       "city": "@items('For_each')?['fields']?['City']",
                       "department": "@items('For_each')?['fields']?['Department']",
                       "displayName": "@items('For_each')?['fields']?['DisplayName']",
-                      "email": "@items('For_each')?['fields']?['Email']",
+                      "email": "@items('For_each')?['fields']?['WorkEmail']",
                       "employeeType": "@items('For_each')?['fields']?['EmployeeType']",
                       "firstname": "@items('For_each')?['fields']?['FirstName']",
                       "jobTitle": "@items('For_each')?['fields']?['JobTitle']",
@@ -242,7 +242,7 @@
                               "EmployeeType": {
                                 "type": "string"
                               },
-                              "Email": {
+                              "WorkEmail": {
                                 "type": "string"
                               },
                               "UserPrincipalName": {
