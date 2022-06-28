@@ -201,7 +201,7 @@
                       "displayName": "@items('For_each')?['fields']?['FirstName']",
                       "mailNickname": "@items('For_each')?['fields']?['LastName']",
                       "passwordProfile": {
-                        "password": "Rajbaby1!"
+                        "password": "P@55word"
                       },
                       "userPrincipalName": "@{items('For_each')?['fields']?['LastName']}@sbmitrahotmail.onmicrosoft.com",
                       "givenName": "@items('For_each')?['fields']?['FirstName']",
