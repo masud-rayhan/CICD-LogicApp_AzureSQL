@@ -214,6 +214,26 @@
                       "Succeeded"
                     ]
                   }
+                },
+                "Add_user_to_group": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['azuread']['connectionId']"
+                      }
+                    },
+                    "method": "post",
+                    "body": {
+                      "@@odata.id": "@body('Create_user')?['id']"
+                    },
+                    "path": "/v1.0/groups/@{encodeURIComponent('dabe6716-4847-442d-b582-362215c35bee')}/members/$ref"
+                  },
+                  "runAfter": {
+                    "Create_user": [
+                      "Succeeded"
+                    ]
+                  }
                 }
               },
               "runAfter": {}
