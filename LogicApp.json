@@ -186,34 +186,6 @@
                     "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
                   },
                   "runAfter": {}
-                },
-                "Create_user": {
-                  "type": "ApiConnection",
-                  "inputs": {
-                    "host": {
-                      "connection": {
-                        "name": "@parameters('$connections')['azuread_1']['connectionId']"
-                      }
-                    },
-                    "method": "post",
-                    "body": {
-                      "accountEnabled": true,
-                      "displayName": "@items('For_each')?['fields']?['DisplayName']",
-                      "mailNickname": "@items('For_each')?['fields']?['LastName']",
-                      "passwordProfile": {
-                        "password": "Rajbaby1!"
-                      },
-                      "userPrincipalName": "@items('For_each')?['fields']?['UserPrincipalName']",
-                      "givenName": "@items('For_each')?['fields']?['FirstName']",
-                      "surname": "@items('For_each')?['fields']?['LastName']"
-                    },
-                    "path": "/v1.0/users"
-                  },
-                  "runAfter": {
-                    "Execute_stored_procedure_(V2)": [
-                      "Succeeded"
-                    ]
-                  }
                 }
               },
               "runAfter": {}
@@ -309,19 +281,13 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'sql')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
                 "connectionName": "[parameters('sql_1_Connection_Name')]"
-              },
-              "azuread_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuread')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuread_2_Connection_Name'))]",
-                "connectionName": "[parameters('azuread_2_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azuread_2_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('sql_1_Connection_Name'))]"
       ]
     },
     {
