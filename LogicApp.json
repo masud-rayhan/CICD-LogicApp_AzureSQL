@@ -261,9 +261,9 @@
                   "expression": {
                     "and": [
                       {
-                        "contains": [
+                        "equals": [
                           "@variables('Azure_UPN')",
-                          "@items('For_each_Employee')?['fields']?['LastName']"
+                          "@items('For_each_Employee')?['fields']?['WorkEmail']"
                         ]
                       }
                     ]
@@ -311,7 +311,7 @@
                             "passwordProfile": {
                               "password": "@variables('Password')"
                             },
-                            "userPrincipalName": "@{items('For_each_Employee')?['fields']?['LastName']}@sbmitrahotmail.onmicrosoft.com",
+                            "userPrincipalName": "@items('For_each_Employee')?['fields']?['WorkEmail']",
                             "givenName": "@items('For_each_Employee')?['fields']?['FirstName']",
                             "surname": "@items('For_each_Employee')?['fields']?['LastName']",
                             "department": "@items('For_each_Employee')?['fields']?['Department']",
@@ -371,7 +371,7 @@
                           "and": [
                             {
                               "equals": [
-                                "",
+                                "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
                                 "Contractor"
                               ]
                             }
