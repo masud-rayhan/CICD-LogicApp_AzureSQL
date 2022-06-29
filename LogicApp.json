@@ -189,10 +189,7 @@
                       "supervisorname": "@items('For_each_Employee')?['fields']?['Supervisorname']",
                       "workemail": "@items('For_each_Employee')?['fields']?['WorkEmail']",
                       "workphone": "@items('For_each_Employee')?['fields']?['WorkPhone']",
-                      "zipcode": "@items('For_each_Employee')?['fields']?['ZipCode']",
-                      "displayName": "@items('For_each_Employee')?['fields']?['PreferredName']",
-                      "email": "@items('For_each_Employee')?['fields']?['WorkEmail']",
-                      "employeeType": "@items('For_each_Employee')?['fields']?['EmploymentStatus']"
+                      "zipcode": "@items('For_each_Employee')?['fields']?['ZipCode']"
                     },
                     "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[add_Employee]'))}"
                   },
