@@ -259,6 +259,30 @@
                             "''NULL\""
                           ]
                         }
+                      },
+                      {
+                        "not": {
+                          "equals": [
+                            "@variables('Azure_ID')",
+                            "NULL"
+                          ]
+                        }
+                      },
+                      {
+                        "not": {
+                          "equals": [
+                            "@variables('Azure_ID')",
+                            "null"
+                          ]
+                        }
+                      },
+                      {
+                        "not": {
+                          "equals": [
+                            "@variables('Azure_ID')",
+                            null
+                          ]
+                        }
                       }
                     ]
                   },
@@ -447,8 +471,7 @@
                 "variables": [
                   {
                     "name": "Azure_ID",
-                    "type": "string",
-                    "value": "\"NULL\""
+                    "type": "string"
                   }
                 ]
               },
