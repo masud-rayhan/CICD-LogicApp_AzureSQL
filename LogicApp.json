@@ -251,65 +251,11 @@
                 "Azure_User_Exist_or_not": {
                   "type": "If",
                   "expression": {
-                    "or": [
+                    "and": [
                       {
                         "contains": [
                           "@variables('Azure_ID')",
-                          0
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          1
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          2
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          3
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          4
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          5
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          6
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          7
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          8
-                        ]
-                      },
-                      {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          9
+                          null
                         ]
                       }
                     ]
