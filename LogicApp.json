@@ -253,10 +253,12 @@
                   "expression": {
                     "and": [
                       {
-                        "contains": [
-                          "@variables('Azure_ID')",
-                          null
-                        ]
+                        "not": {
+                          "contains": [
+                            "@variables('Azure_ID')",
+                            null
+                          ]
+                        }
                       }
                     ]
                   },
