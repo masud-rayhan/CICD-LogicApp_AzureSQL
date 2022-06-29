@@ -251,38 +251,66 @@
                 "Azure_User_Exist_or_not": {
                   "type": "If",
                   "expression": {
-                    "and": [
+                    "or": [
                       {
-                        "not": {
-                          "equals": [
-                            "@variables('Azure_ID')",
-                            "''NULL\""
-                          ]
-                        }
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          0
+                        ]
                       },
                       {
-                        "not": {
-                          "equals": [
-                            "@variables('Azure_ID')",
-                            "NULL"
-                          ]
-                        }
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          1
+                        ]
                       },
                       {
-                        "not": {
-                          "equals": [
-                            "@variables('Azure_ID')",
-                            "null"
-                          ]
-                        }
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          2
+                        ]
                       },
                       {
-                        "not": {
-                          "equals": [
-                            "@variables('Azure_ID')",
-                            null
-                          ]
-                        }
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          3
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          4
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          5
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          6
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          7
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          8
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@variables('Azure_ID')",
+                          9
+                        ]
                       }
                     ]
                   },
