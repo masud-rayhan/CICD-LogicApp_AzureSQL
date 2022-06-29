@@ -273,7 +273,7 @@
                         "body": {
                           "employeeId": "@variables('Employee_ID')",
                           "processed": -1,
-                          "reason": "\"User already exist\""
+                          "reason": "User already exist"
                         },
                         "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                       },
@@ -326,7 +326,7 @@
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
                             "processed": 1,
-                            "processedBy": "\"LogicApp\""
+                            "processedBy": "LogicApp"
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                         },
@@ -347,7 +347,7 @@
                           "method": "post",
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
-                            "reason": "\"User Creating Failed\""
+                            "reason": "User Creating Failed"
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                         },
