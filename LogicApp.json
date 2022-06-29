@@ -256,7 +256,7 @@
                         "not": {
                           "equals": [
                             "@variables('Azure_ID')",
-                            null
+                            "''NULL\""
                           ]
                         }
                       }
@@ -448,7 +448,7 @@
                   {
                     "name": "Azure_ID",
                     "type": "string",
-                    "value": "null"
+                    "value": "\"NULL\""
                   }
                 ]
               },
