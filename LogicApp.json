@@ -235,11 +235,11 @@
                     ]
                   }
                 },
-                "Set_variable_for_Azure_ID": {
+                "Set_variable_for_Azure_UPN": {
                   "type": "SetVariable",
                   "inputs": {
-                    "name": "Azure_ID",
-                    "value": "@{body('Get_user')}"
+                    "name": "Azure_UPN",
+                    "value": "@body('Get_user')?['userPrincipalName']"
                   },
                   "runAfter": {
                     "Get_user": [
@@ -253,12 +253,10 @@
                   "expression": {
                     "and": [
                       {
-                        "not": {
-                          "contains": [
-                            "@variables('Azure_ID')",
-                            null
-                          ]
-                        }
+                        "contains": [
+                          "@variables('Azure_UPN')",
+                          "@items('For_each_Employee')?['fields']?['LastName']"
+                        ]
                       }
                     ]
                   },
@@ -283,7 +281,7 @@
                     }
                   },
                   "runAfter": {
-                    "Set_variable_for_Azure_ID": [
+                    "Set_variable_for_Azure_UPN": [
                       "Succeeded"
                     ]
                   },
@@ -441,12 +439,12 @@
                 ]
               }
             },
-            "Initialize_variable_for_Azure_AD_ID": {
+            "Initialize_variable_for_Azure_UPN": {
               "type": "InitializeVariable",
               "inputs": {
                 "variables": [
                   {
-                    "name": "Azure_ID",
+                    "name": "Azure_UPN",
                     "type": "string"
                   }
                 ]
@@ -465,7 +463,7 @@
                 ]
               },
               "runAfter": {
-                "Initialize_variable_for_Azure_AD_ID": [
+                "Initialize_variable_for_Azure_UPN": [
                   "Succeeded"
                 ]
               }
