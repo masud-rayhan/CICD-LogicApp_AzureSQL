@@ -239,7 +239,7 @@
                   "type": "SetVariable",
                   "inputs": {
                     "name": "Azure_ID",
-                    "value": "@body('Get_user')?['id']"
+                    "value": "@{body('Get_user')}"
                   },
                   "runAfter": {
                     "Get_user": [
