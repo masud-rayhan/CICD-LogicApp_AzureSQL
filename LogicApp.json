@@ -153,12 +153,12 @@
                 "body": "Request Success "
               },
               "runAfter": {
-                "For_each": [
+                "For_each_Employee": [
                   "Succeeded"
                 ]
               }
             },
-            "For_each": {
+            "For_each_Employee": {
               "type": "Foreach",
               "foreach": "@triggerBody()?['employees']",
               "actions": {
@@ -172,51 +172,21 @@
                     },
                     "method": "post",
                     "body": {
-                      "city": "@items('For_each')?['fields']?['City']",
-                      "department": "@items('For_each')?['fields']?['Department']",
-                      "displayName": "@items('For_each')?['fields']?['PreferredName']",
-                      "email": "@items('For_each')?['fields']?['WorkEmail']",
-                      "employeeType": "@items('For_each')?['fields']?['EmploymentStatus']",
-                      "firstname": "@items('For_each')?['fields']?['FirstName']",
-                      "jobTitle": "@items('For_each')?['fields']?['JobTitle']",
-                      "lastname": "@items('For_each')?['fields']?['LastName']",
-                      "mobilePhone": "@items('For_each')?['fields']?['MobilePhone']",
-                      "state": "@items('For_each')?['fields']?['State']"
+                      "city": "@items('For_each_Employee')?['fields']?['City']",
+                      "department": "@items('For_each_Employee')?['fields']?['Department']",
+                      "displayName": "@items('For_each_Employee')?['fields']?['PreferredName']",
+                      "email": "@items('For_each_Employee')?['fields']?['WorkEmail']",
+                      "employeeType": "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
+                      "firstname": "@items('For_each_Employee')?['fields']?['FirstName']",
+                      "jobTitle": "@items('For_each_Employee')?['fields']?['JobTitle']",
+                      "lastname": "@items('For_each_Employee')?['fields']?['LastName']",
+                      "mobilePhone": "@items('For_each_Employee')?['fields']?['MobilePhone']",
+                      "state": "@items('For_each_Employee')?['fields']?['State']",
+                      "empId": 0
                     },
                     "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
                   },
                   "runAfter": {}
-                },
-                "Create_user": {
-                  "type": "ApiConnection",
-                  "inputs": {
-                    "host": {
-                      "connection": {
-                        "name": "@parameters('$connections')['azuread']['connectionId']"
-                      }
-                    },
-                    "method": "post",
-                    "body": {
-                      "accountEnabled": true,
-                      "displayName": "@items('For_each')?['fields']?['FirstName']",
-                      "mailNickname": "@items('For_each')?['fields']?['LastName']",
-                      "passwordProfile": {
-                        "password": "P@55word"
-                      },
-                      "userPrincipalName": "@{items('For_each')?['fields']?['LastName']}@sbmitrahotmail.onmicrosoft.com",
-                      "givenName": "@items('For_each')?['fields']?['FirstName']",
-                      "surname": "@items('For_each')?['fields']?['LastName']",
-                      "department": "@items('For_each')?['fields']?['Department']",
-                      "jobTitle": "@items('For_each')?['fields']?['JobTitle']",
-                      "mobilePhone": "@items('For_each')?['fields']?['MobilePhone']"
-                    },
-                    "path": "/v1.0/users"
-                  },
-                  "runAfter": {
-                    "Get_user": [
-                      "Failed"
-                    ]
-                  }
                 },
                 "Get_user": {
                   "type": "ApiConnection",
@@ -227,7 +197,38 @@
                       }
                     },
                     "method": "get",
-                    "path": "/v1.0/users/@{encodeURIComponent(items('For_each')?['fields']?['LastName'],'@sbmitrahotmail.onmicrosoft.com')}"
+                    "path": "/v1.0/users/@{encodeURIComponent(items('For_each_Employee')?['fields']?['LastName'],'@sbmitrahotmail.onmicrosoft.com')}"
+                  },
+                  "runAfter": {
+                    "For_each_for_retrieving_empId_and_password_": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "For_each_for_retrieving_empId_and_password_": {
+                  "type": "Foreach",
+                  "foreach": "@body('Execute_stored_procedure_(V2)')?['resultsets']?['Table1']",
+                  "actions": {
+                    "Set_variable_for_EmployeeID": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "Employee_ID",
+                        "value": "@items('For_each_for_retrieving_empId_and_password_')?['empId']"
+                      },
+                      "runAfter": {}
+                    },
+                    "Set_variable_for_Password": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "Password",
+                        "value": "P@55word"
+                      },
+                      "runAfter": {
+                        "Set_variable_for_EmployeeID": [
+                          "Succeeded"
+                        ]
+                      }
+                    }
                   },
                   "runAfter": {
                     "Execute_stored_procedure_(V2)": [
@@ -235,57 +236,143 @@
                     ]
                   }
                 },
-                "Condition": {
+                "Set_variable_for_Azure_ID": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "Azure_ID",
+                    "value": "@body('Get_user')?['id']"
+                  },
+                  "runAfter": {
+                    "Get_user": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Azure_User_Exist_or_not": {
                   "type": "If",
                   "expression": {
                     "and": [
                       {
-                        "equals": [
-                          "@items('For_each')?['fields']?['EmploymentStatus']",
-                          "Contractor"
-                        ]
+                        "not": {
+                          "equals": [
+                            "@variables('Azure_ID')",
+                            "Null"
+                          ]
+                        }
                       }
                     ]
                   },
                   "actions": {
-                    "Add_to_Contractor_Group": {
+                    "Execute_stored_procedure_(V2)_2": {
                       "type": "ApiConnection",
                       "inputs": {
                         "host": {
                           "connection": {
-                            "name": "@parameters('$connections')['azuread']['connectionId']"
+                            "name": "@parameters('$connections')['sql_1']['connectionId']"
                           }
                         },
                         "method": "post",
                         "body": {
-                          "@@odata.id": "@body('Create_user')?['id']"
+                          "employeeId": "@variables('Employee_ID')",
+                          "processed": -1,
+                          "reason": "\"User already exist\""
                         },
-                        "path": "/v1.0/groups/@{encodeURIComponent('dabe6716-4847-442d-b582-362215c35bee')}/members/$ref"
+                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                       },
                       "runAfter": {}
                     }
                   },
                   "runAfter": {
-                    "Create_user": [
+                    "Set_variable_for_Azure_ID": [
                       "Succeeded"
                     ]
                   },
                   "else": {
                     "actions": {
-                      "Condition_2": {
+                      "Create_user": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['azuread']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "body": {
+                            "accountEnabled": true,
+                            "displayName": "@items('For_each_Employee')?['fields']?['FirstName']",
+                            "mailNickname": "@items('For_each_Employee')?['fields']?['LastName']",
+                            "passwordProfile": {
+                              "password": "@variables('Password')"
+                            },
+                            "userPrincipalName": "@{items('For_each_Employee')?['fields']?['LastName']}@sbmitrahotmail.onmicrosoft.com",
+                            "givenName": "@items('For_each_Employee')?['fields']?['FirstName']",
+                            "surname": "@items('For_each_Employee')?['fields']?['LastName']",
+                            "department": "@items('For_each_Employee')?['fields']?['Department']",
+                            "jobTitle": "@items('For_each_Employee')?['fields']?['JobTitle']",
+                            "mobilePhone": "@items('For_each_Employee')?['fields']?['MobilePhone']"
+                          },
+                          "path": "/v1.0/users"
+                        },
+                        "runAfter": {}
+                      },
+                      "Execute_stored_procedure_(V2)_3": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['sql_1']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "body": {
+                            "employeeId": "@variables('Employee_ID')",
+                            "processed": 1,
+                            "processedBy": "\"LogicApp\""
+                          },
+                          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
+                        },
+                        "runAfter": {
+                          "Create_user": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "Execute_stored_procedure_(V2)_4": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['sql_1']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "body": {
+                            "employeeId": "@variables('Employee_ID')",
+                            "reason": "\"User Creating Failed\""
+                          },
+                          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
+                        },
+                        "runAfter": {
+                          "Create_user": [
+                            "Failed"
+                          ]
+                        }
+                      },
+                      "Condition_For_Employement_Status_Check": {
                         "type": "If",
                         "expression": {
                           "and": [
                             {
                               "equals": [
-                                "@items('For_each')?['fields']?['EmploymentStatus']",
-                                "Full-Time"
+                                "",
+                                "Contractor"
                               ]
                             }
                           ]
                         },
                         "actions": {
-                          "Add_to_FTE_Group": {
+                          "Add_user_to_Contractor_Group": {
                             "type": "ApiConnection",
                             "inputs": {
                               "host": {
@@ -297,18 +384,109 @@
                               "body": {
                                 "@@odata.id": "@body('Create_user')?['id']"
                               },
-                              "path": "/v1.0/groups/@{encodeURIComponent('59417a71-4df0-475d-a14e-4d7496afb754')}/members/$ref"
+                              "path": "/v1.0/groups/@{encodeURIComponent('dabe6716-4847-442d-b582-362215c35bee')}/members/$ref"
                             },
                             "runAfter": {}
                           }
                         },
-                        "runAfter": {}
+                        "runAfter": {
+                          "Execute_stored_procedure_(V2)_3": [
+                            "Succeeded"
+                          ]
+                        },
+                        "else": {
+                          "actions": {
+                            "Condition_For_Employement_Status_Check_2": {
+                              "type": "If",
+                              "expression": {
+                                "and": [
+                                  {
+                                    "equals": [
+                                      "",
+                                      "Full-Time"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "actions": {
+                                "Add_user_to_FTE__group": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuread']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "body": {
+                                      "@@odata.id": "@body('Create_user')?['id']"
+                                    },
+                                    "path": "/v1.0/groups/@{encodeURIComponent('59417a71-4df0-475d-a14e-4d7496afb754')}/members/$ref"
+                                  },
+                                  "runAfter": {}
+                                }
+                              },
+                              "runAfter": {}
+                            }
+                          }
+                        }
                       }
                     }
                   }
                 }
               },
+              "runAfter": {
+                "Initialize_variable_for_Password": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable_for_Azure_AD_ID": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "Azure_ID",
+                    "type": "string",
+                    "value": "null"
+                  }
+                ]
+              },
               "runAfter": {}
+            },
+            "Initialize_variable_for_EmployeeID": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "Employee_ID",
+                    "type": "float",
+                    "value": 0
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_variable_for_Azure_AD_ID": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable_for_Password": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "Password",
+                    "type": "string",
+                    "value": "null"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_variable_for_EmployeeID": [
+                  "Succeeded"
+                ]
+              }
             }
           },
           "parameters": {
