@@ -181,8 +181,7 @@
                       "jobTitle": "@items('For_each_Employee')?['fields']?['JobTitle']",
                       "lastname": "@items('For_each_Employee')?['fields']?['LastName']",
                       "mobilePhone": "@items('For_each_Employee')?['fields']?['MobilePhone']",
-                      "state": "@items('For_each_Employee')?['fields']?['State']",
-                      "empId": 0
+                      "state": "@items('For_each_Employee')?['fields']?['State']"
                     },
                     "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
                   },
