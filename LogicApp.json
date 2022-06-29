@@ -216,11 +216,11 @@
                       },
                       "runAfter": {}
                     },
-                    "Set_variable_for_Password": {
+                    "Set_variable": {
                       "type": "SetVariable",
                       "inputs": {
                         "name": "Password",
-                        "value": "P@55word"
+                        "value": "@items('For_each_for_retrieving_empId_and_password_')?['password']"
                       },
                       "runAfter": {
                         "Set_variable_for_EmployeeID": [
