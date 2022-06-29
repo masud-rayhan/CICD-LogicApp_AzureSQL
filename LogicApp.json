@@ -172,18 +172,29 @@
                     },
                     "method": "post",
                     "body": {
+                      "addressline1": "@items('For_each_Employee')?['fields']?['AddressLine1']",
+                      "addressline2": "@items('For_each_Employee')?['fields']?['AddressLine2']",
                       "city": "@items('For_each_Employee')?['fields']?['City']",
+                      "country": "@items('For_each_Employee')?['fields']?['Country']",
                       "department": "@items('For_each_Employee')?['fields']?['Department']",
-                      "displayName": "@items('For_each_Employee')?['fields']?['PreferredName']",
-                      "email": "@items('For_each_Employee')?['fields']?['WorkEmail']",
-                      "employeeType": "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
+                      "employementstatus": "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
                       "firstname": "@items('For_each_Employee')?['fields']?['FirstName']",
+                      "fullname": "@items('For_each_Employee')?['fields']?['FirstnameLastname']",
+                      "homephone": "@items('For_each_Employee')?['fields']?['HomePhone']",
                       "jobTitle": "@items('For_each_Employee')?['fields']?['JobTitle']",
                       "lastname": "@items('For_each_Employee')?['fields']?['LastName']",
-                      "mobilePhone": "@items('For_each_Employee')?['fields']?['MobilePhone']",
-                      "state": "@items('For_each_Employee')?['fields']?['State']"
+                      "location": "@items('For_each_Employee')?['fields']?['Location']",
+                      "mobilephone": "@items('For_each_Employee')?['fields']?['MobilePhone']",
+                      "state": "@items('For_each_Employee')?['fields']?['State']",
+                      "supervisorname": "@items('For_each_Employee')?['fields']?['Supervisorname']",
+                      "workemail": "@items('For_each_Employee')?['fields']?['WorkEmail']",
+                      "workphone": "@items('For_each_Employee')?['fields']?['WorkPhone']",
+                      "zipcode": "@items('For_each_Employee')?['fields']?['ZipCode']",
+                      "displayName": "@items('For_each_Employee')?['fields']?['PreferredName']",
+                      "email": "@items('For_each_Employee')?['fields']?['WorkEmail']",
+                      "employeeType": "@items('For_each_Employee')?['fields']?['EmploymentStatus']"
                     },
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[us_Employee]'))}"
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[add_Employee]'))}"
                   },
                   "runAfter": {}
                 },
@@ -516,31 +527,52 @@
                               "LastName": {
                                 "type": "string"
                               },
-                              "PreferredName": {
+                              "Department": {
                                 "type": "string"
                               },
                               "JobTitle": {
                                 "type": "string"
                               },
-                              "Department": {
+                              "Location": {
+                                "type": "string"
+                              },
+                              "FirstnameLastname": {
+                                "type": "string"
+                              },
+                              "HomePhone": {
                                 "type": "string"
                               },
                               "MobilePhone": {
                                 "type": "string"
                               },
-                              "City": {
-                                "type": "string"
-                              },
                               "State": {
                                 "type": "string"
                               },
-                              "EmploymentStatus": {
+                              "Supervisorname": {
                                 "type": "string"
                               },
                               "WorkEmail": {
                                 "type": "string"
                               },
-                              "UserPrincipalName": {
+                              "City": {
+                                "type": "string"
+                              },
+                              "Country": {
+                                "type": "string"
+                              },
+                              "WorkPhone": {
+                                "type": "string"
+                              },
+                              "AddressLine1": {
+                                "type": "string"
+                              },
+                              "AddressLine2": {
+                                "type": "string"
+                              },
+                              "ZipCode": {
+                                "type": "string"
+                              },
+                              "EmploymentStatus": {
                                 "type": "string"
                               }
                             },
