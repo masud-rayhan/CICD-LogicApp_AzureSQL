@@ -408,7 +408,7 @@
                                 "and": [
                                   {
                                     "equals": [
-                                      "",
+                                      "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
                                       "Full-Time"
                                     ]
                                   }
