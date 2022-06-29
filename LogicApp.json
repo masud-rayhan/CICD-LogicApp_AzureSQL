@@ -243,7 +243,8 @@
                   },
                   "runAfter": {
                     "Get_user": [
-                      "Succeeded"
+                      "Succeeded",
+                      "Failed"
                     ]
                   }
                 },
@@ -255,7 +256,7 @@
                         "not": {
                           "equals": [
                             "@variables('Azure_ID')",
-                            "Null"
+                            "nul"
                           ]
                         }
                       }
