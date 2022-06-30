@@ -334,7 +334,7 @@
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
                             "processed": 1,
-                            "processedBy": "E78-BambooHR LogicApp"
+                            "processedBy": "E78-BambooHR-LogicApp"
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                         },
