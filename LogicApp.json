@@ -204,7 +204,7 @@
                       }
                     },
                     "method": "get",
-                    "path": "/v1.0/users/@{encodeURIComponent(items('For_each_Employee')?['fields']?['LastName'],'@sbmitrahotmail.onmicrosoft.com')}"
+                    "path": "/v1.0/users/@{encodeURIComponent(items('For_each_Employee')?['fields']?['WorkEmail'])}"
                   },
                   "runAfter": {
                     "For_each_for_retrieving_empId_and_password_": [
