@@ -355,13 +355,13 @@
                           "method": "post",
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
-                            "reason": "User Creating Failed "
+                            "reason": "@body('Parse_JSON')?['error']?['message']"
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                         },
                         "runAfter": {
-                          "Create_user": [
-                            "Failed"
+                          "Parse_JSON": [
+                            "Succeeded"
                           ]
                         }
                       },
@@ -435,6 +435,47 @@
                               "runAfter": {}
                             }
                           }
+                        }
+                      },
+                      "Parse_JSON": {
+                        "type": "ParseJson",
+                        "inputs": {
+                          "content": "@body('Create_user')",
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "error": {
+                                "type": "object",
+                                "properties": {
+                                  "code": {
+                                    "type": "string"
+                                  },
+                                  "message": {
+                                    "type": "string"
+                                  },
+                                  "innerError": {
+                                    "type": "object",
+                                    "properties": {
+                                      "date": {
+                                        "type": "string"
+                                      },
+                                      "request-id": {
+                                        "type": "string"
+                                      },
+                                      "client-request-id": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "runAfter": {
+                          "Create_user": [
+                            "Failed"
+                          ]
                         }
                       }
                     }
