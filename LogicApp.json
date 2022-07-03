@@ -145,19 +145,6 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
-            "Response": {
-              "type": "Response",
-              "kind": "http",
-              "inputs": {
-                "statusCode": 200,
-                "body": "Request Success "
-              },
-              "runAfter": {
-                "For_each_Employee": [
-                  "Succeeded"
-                ]
-              }
-            },
             "For_each_Employee": {
               "type": "Foreach",
               "foreach": "@triggerBody()?['employees']",
@@ -531,6 +518,19 @@
               },
               "runAfter": {
                 "Initialize_variable_for_EmployeeID": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Response_2": {
+              "type": "Response",
+              "kind": "http",
+              "inputs": {
+                "statusCode": 200,
+                "body": "Successfully Done "
+              },
+              "runAfter": {
+                "For_each_Employee": [
                   "Succeeded"
                 ]
               }
