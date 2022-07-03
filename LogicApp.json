@@ -365,78 +365,6 @@
                           ]
                         }
                       },
-                      "Condition_For_Employement_Status_Check": {
-                        "type": "If",
-                        "expression": {
-                          "and": [
-                            {
-                              "equals": [
-                                "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
-                                "Contractor"
-                              ]
-                            }
-                          ]
-                        },
-                        "actions": {
-                          "Add_user_to_Contractor_Group": {
-                            "type": "ApiConnection",
-                            "inputs": {
-                              "host": {
-                                "connection": {
-                                  "name": "@parameters('$connections')['azuread']['connectionId']"
-                                }
-                              },
-                              "method": "post",
-                              "body": {
-                                "@@odata.id": "@body('Create_user')?['id']"
-                              },
-                              "path": "/v1.0/groups/@{encodeURIComponent('dabe6716-4847-442d-b582-362215c35bee')}/members/$ref"
-                            },
-                            "runAfter": {}
-                          }
-                        },
-                        "runAfter": {
-                          "Execute_stored_procedure_(V2)_3": [
-                            "Succeeded"
-                          ]
-                        },
-                        "else": {
-                          "actions": {
-                            "Condition_For_Employement_Status_Check_2": {
-                              "type": "If",
-                              "expression": {
-                                "and": [
-                                  {
-                                    "equals": [
-                                      "@items('For_each_Employee')?['fields']?['EmploymentStatus']",
-                                      "Full-Time"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "actions": {
-                                "Add_user_to_FTE__group": {
-                                  "type": "ApiConnection",
-                                  "inputs": {
-                                    "host": {
-                                      "connection": {
-                                        "name": "@parameters('$connections')['azuread']['connectionId']"
-                                      }
-                                    },
-                                    "method": "post",
-                                    "body": {
-                                      "@@odata.id": "@body('Create_user')?['id']"
-                                    },
-                                    "path": "/v1.0/groups/@{encodeURIComponent('59417a71-4df0-475d-a14e-4d7496afb754')}/members/$ref"
-                                  },
-                                  "runAfter": {}
-                                }
-                              },
-                              "runAfter": {}
-                            }
-                          }
-                        }
-                      },
                       "Parse_JSON": {
                         "type": "ParseJson",
                         "inputs": {
@@ -497,7 +425,54 @@
                           "value": "User successfully created and update"
                         },
                         "runAfter": {
-                          "Condition_For_Employement_Status_Check": [
+                          "For_each": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "Execute_stored_procedure_(V2)_5": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['sql_1']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "body": {
+                            "empStatus": "@items('For_each_Employee')?['fields']?['EmploymentStatus']"
+                          },
+                          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[ug_GroupIdByEmpStatus]'))}"
+                        },
+                        "runAfter": {
+                          "Execute_stored_procedure_(V2)_3": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "For_each": {
+                        "type": "Foreach",
+                        "foreach": "@body('Execute_stored_procedure_(V2)_5')?['resultsets']?['Table1']",
+                        "actions": {
+                          "Add_user_to_group": {
+                            "type": "ApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connection": {
+                                  "name": "@parameters('$connections')['azuread']['connectionId']"
+                                }
+                              },
+                              "method": "post",
+                              "body": {
+                                "@@odata.id": "@body('Create_user')?['id']"
+                              },
+                              "path": "/v1.0/groups/@{encodeURIComponent(items('For_each')?['GroupId'])}/members/$ref"
+                            },
+                            "runAfter": {}
+                          }
+                        },
+                        "runAfter": {
+                          "Execute_stored_procedure_(V2)_5": [
                             "Succeeded"
                           ]
                         }
