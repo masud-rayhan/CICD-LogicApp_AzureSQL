@@ -274,10 +274,10 @@
                       },
                       "runAfter": {}
                     },
-                    "Set_variable_for_final_Mesg": {
+                    "Set_variable_for_Response_Message": {
                       "type": "SetVariable",
                       "inputs": {
-                        "name": "FinalMessage",
+                        "name": "ResponseMessage",
                         "value": "User already exist  Dabase updated,"
                       },
                       "runAfter": {
@@ -478,10 +478,10 @@
                           ]
                         }
                       },
-                      "Set_variable_for_FinalMessage": {
+                      "Set_variable_for_ResponseMess": {
                         "type": "SetVariable",
                         "inputs": {
-                          "name": "FinalMessage",
+                          "name": "ResponseMessage",
                           "value": "User didn't create because of @{body('Parse_JSON')?['error']?['message']}"
                         },
                         "runAfter": {
@@ -490,10 +490,10 @@
                           ]
                         }
                       },
-                      "Set_variable_For_Final_Message": {
+                      "Set_variable_For_ResponseMessage": {
                         "type": "SetVariable",
                         "inputs": {
-                          "name": "FinalMessage",
+                          "name": "ResponseMessage",
                           "value": "User successfully created and update"
                         },
                         "runAfter": {
@@ -507,7 +507,7 @@
                 }
               },
               "runAfter": {
-                "Initialize_variable_for_finalMessage": [
+                "Initialize_variable_for_ResponseMessage": [
                   "Succeeded"
                 ]
               }
@@ -563,7 +563,7 @@
               "kind": "http",
               "inputs": {
                 "statusCode": 200,
-                "body": "@variables('FinalMessage')"
+                "body": "@variables('ResponseMessage')"
               },
               "runAfter": {
                 "For_each_Employee": [
@@ -572,12 +572,12 @@
                 ]
               }
             },
-            "Initialize_variable_for_finalMessage": {
+            "Initialize_variable_for_ResponseMessage": {
               "type": "InitializeVariable",
               "inputs": {
                 "variables": [
                   {
-                    "name": "FinalMessage",
+                    "name": "ResponseMessage",
                     "type": "string",
                     "value": "Project didn't execute"
                   }
