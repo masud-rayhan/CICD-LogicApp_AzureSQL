@@ -334,7 +334,7 @@
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
                             "processed": 1,
-                            "processedBy": "E78-BambooHR-Logic-App"
+                            "processedBy": "Logic-App"
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                         },
@@ -355,7 +355,7 @@
                           "method": "post",
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
-                            "reason": "User Creating Failed"
+                            "reason": "User Creating Failed "
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                         },
