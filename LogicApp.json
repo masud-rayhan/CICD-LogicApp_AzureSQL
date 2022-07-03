@@ -273,6 +273,18 @@
                         "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
                       },
                       "runAfter": {}
+                    },
+                    "Set_variable_for_final_Mesg": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "FinalMessage",
+                        "value": "User already exist  Dabase updated,"
+                      },
+                      "runAfter": {
+                        "Execute_stored_procedure_(V2)_2": [
+                          "Succeeded"
+                        ]
+                      }
                     }
                   },
                   "runAfter": {
@@ -465,13 +477,37 @@
                             "Failed"
                           ]
                         }
+                      },
+                      "Set_variable_for_FinalMessage": {
+                        "type": "SetVariable",
+                        "inputs": {
+                          "name": "FinalMessage",
+                          "value": "User didn't create because of @{body('Parse_JSON')?['error']?['message']}"
+                        },
+                        "runAfter": {
+                          "Execute_stored_procedure_(V2)_4": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "Set_variable_For_Final_Message": {
+                        "type": "SetVariable",
+                        "inputs": {
+                          "name": "FinalMessage",
+                          "value": "User successfully created and update"
+                        },
+                        "runAfter": {
+                          "Condition_For_Employement_Status_Check": [
+                            "Succeeded"
+                          ]
+                        }
                       }
                     }
                   }
                 }
               },
               "runAfter": {
-                "Initialize_variable_for_Password": [
+                "Initialize_variable_for_finalMessage": [
                   "Succeeded"
                 ]
               }
@@ -522,15 +558,32 @@
                 ]
               }
             },
-            "Response_2": {
+            "Response_": {
               "type": "Response",
               "kind": "http",
               "inputs": {
                 "statusCode": 200,
-                "body": "Successfully Done "
+                "body": "@variables('FinalMessage')"
               },
               "runAfter": {
                 "For_each_Employee": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable_for_finalMessage": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "FinalMessage",
+                    "type": "string",
+                    "value": "Project didn't execute"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_variable_for_Password": [
                   "Succeeded"
                 ]
               }
