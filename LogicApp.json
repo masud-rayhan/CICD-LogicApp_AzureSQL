@@ -567,7 +567,8 @@
               },
               "runAfter": {
                 "For_each_Employee": [
-                  "Succeeded"
+                  "Succeeded",
+                  "Failed"
                 ]
               }
             },
