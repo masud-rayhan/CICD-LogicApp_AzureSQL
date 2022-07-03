@@ -355,6 +355,7 @@
                           "method": "post",
                           "body": {
                             "employeeId": "@variables('Employee_ID')",
+                            "processed": -1,
                             "reason": "@body('Parse_JSON')?['error']?['message']"
                           },
                           "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('e78-onboarding-sqldb.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('e78-onboarding'))}/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[update_Employee]'))}"
